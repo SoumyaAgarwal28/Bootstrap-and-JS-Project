@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<style type="text/css">
+	
+	#leftside{
+		width:600px;
+		height:600px;
+		position:absolute;
+	}
+	#rightside{
+		width:600px;
+		height:600px;
+		left: 620px;
+		border-left: 1px solid black;
+		position:absolute;
+	}
+	#img{
+		width: 100px;
+		height: 100px;
+	}
+</style>
+</head>
+<body onload="generateFaces()">
+	<!--img src="smile.png" id="photo"-->
+	<h1>Matching Game</h1><br>
+	<p>Click on the extra smiling face on the left.</p>
+	<div id="leftside"></div>
+	<div id="rightside"></div>
+	<script type="text/javascript">
+		var numberOfFaces=5;
+		var theLeftSide=document.getElementById("leftside");
+		var theRightSide=document.getElementById("rightside");
+		var theBody=document.getElementsByTagName("body")[0];
+		function generateFaces() {
+			for (var i = 0; i < numberOfFaces; i++) {
+			var img=document.createElement("img");
+			img.src="http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png";
+			img.setAttribute("style", "position:absolute;");
+			var positionTop = Math.floor(Math.random() * 500);
+			var positionLeft = Math.floor(Math.random() * 500);
+            img.style.height = '100px';
+    		img.style.width = '100px';
+   		    img.style.top=positionTop + 'px';
+    		img.style.left =positionLeft + 'px';
+            theLeftSide.appendChild(img);
+			}
+			var cln=theLeftSide.cloneNode(true);
+         	theRightSide.appendChild(cln);
+         	cln.removeChild(cln.lastChild);
+         	theLeftSide.lastChild.onclick=function nextLevel(event){
+         		event.stopPropagation();
+         		numberOfFaces+=5;
+         			while (theLeftSide.firstChild) {
+   						 theLeftSide.removeChild(theLeftSide.firstChild);
+   						}
+   					while (cln.firstChild) {
+    					 cln.removeChild(cln.firstChild);
+    					}
+    					
+    					generateFaces();
+         	};
+
+         	theBody.onclick=function gameOver(event){
+         		alert("Game Over!");
+         		theBody.onclick=null;
+         		theLeftSide.lastChild.onclick=null;
+         	};
+
+			
+	
+		}
+	</script>
+</body>
+</html>
